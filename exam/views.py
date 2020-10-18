@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from . import models
 from users.models import User
+from django.core import serializers
 
 
 def create_exam(request):
@@ -82,3 +83,12 @@ def exam_detail(request, pk):
         return JsonResponse({"data": 1})
     else:
         return render(request, 'exam/exam_detail.html', context=context)
+
+
+def get_ques_cat(request):
+    if request.method == 'POST' and request.is_ajax:
+        cat_id = request.POST.get('cat_id')
+        cat = models.Category.objects.get(pk=cat_id)
+        questions = models.Question.objects.filter(cat_name=cat)
+        ques_json = serializers.serialize('json', questions)
+        return HttpResponse(ques_json, content_type='application/json')

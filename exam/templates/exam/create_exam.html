@@ -67,11 +67,10 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <h3 class="body-font">اختر الأسئله </h3>
+                                        <div id="question">
 
-                                                {% for question in questions %}
-            <input type="checkbox" id="question{{ question.pk }}" name="question{{ question.pk }}" value="{{ question.pk }}">
-                  <label for="question{{ question.pk }}"> {{ question.question }}</label><br>
-                                                {% endfor %}
+                                                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -114,6 +113,32 @@
     <script>
         var val = [];
     $(()=> {
+        $("#cat").on('change', (event) => {
+           var cat_id = event.target.value
+           console.log(cat_id);
+                       $.ajax({
+	method:'POST',
+	url:'{% url 'cat-ques' %}',
+	data:{
+	'cat_id':cat_id,
+	'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+},
+success: function(data) {
+         $("#question").empty();
+     data.map( m =>  {
+         $("#question").append(
+             `<input type="checkbox" id="question${m.fields.question}" name="question${m.fields.question}" value="${m.pk}">
+           <br>
+                  <label for="question${m.pk}}"> ${m.fields.question}</label>`
+         );
+     });
+	    },
+error : function (error) {
+  alert(error.responseText)
+}
+});
+
+        });
         $("#btn_submit").on('click' , (event) => {
             event.preventDefault();
              $(':checkbox:checked').each(function(i){
