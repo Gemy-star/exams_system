@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{%  load static %}
+{% block body %}
+
+    <main class="login-body" data-vide-bg="assets/img/login-bg.mp4">
+    <!-- Login Admin -->
+    <form class="form-default"  method="POST">
+  {% csrf_token %}
+        <div class="login-form">
+            <!-- logo-login -->
+            <div class="logo-login">
+                <a href="{% url 'home-page' %}"><img src="{% static 'img/loader.png' %}" alt=""></a>
+            </div>
+            <h2 class="body-font">إنشاء حساب</h2>
+            <div class="justify-content-center">
+														<h3 class="mb-30 body-font">اختر نوع الحساب</h3>
+														<div class="default-select" id="opt">
+															<select name="opt">
+																<option value="0" >مدرس</option>
+																<option value="1">طالب</option>
+
+															</select>
+														</div>
+													</div>
+            <div class="form-input">
+                <label class="body-font" for="first_name">الأسم</label>
+                <input class="body-font" type="text" name="first_name" id="first_name" placeholder="الأسم">
+            </div>
+              <div class="form-input">
+                <label class="body-font" for="last_name">اللقب</label>
+                <input class="body-font" type="text" name="last_name" id="last_name" placeholder="اللقب">
+            </div>
+            <div class="form-input">
+                <label class="body-font" for="email">البريد الألكترونى</label>
+                <input type="email" name="email" id="email" placeholder="البريد الألكترونى">
+            </div>
+            <div class="form-input">
+                <label class="body-font" for="password">كلمة المرور</label>
+                <input type="password" name="password" id="password" placeholder="كلمة المرور">
+            </div>
+            <div class="form-input">
+                <label class="body-font" for="national_id">الرقم القومى</label>
+                <input class="body-font" type="number" name="national_id" id="national_id" placeholder="الرقم القومى">
+            </div>
+             <div class="form-input">
+                <label class="body-font" for="phone">الهاتف</label>
+                <input class="body-font" type="number" name="phone" id="phone" placeholder="الهاتف">
+            </div>
+            <div class="form-input pt-30">
+                <input class="body-font" type="submit" name="submit" value="إنشاء حساب">
+            </div>
+            <!-- Forget Password -->
+            <a href="{% url 'login' %}" class="registration">تسجيل الدخول</a>
+        </div>
+    </form>
+    <!-- /end login form -->
+</main>
+
+{% endblock body %}

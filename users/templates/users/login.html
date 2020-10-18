@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block body %}
+ <main class="login-body" data-vide-bg="{% static 'img/login-bg.mp4' %}">
+        <!-- Login Admin -->
+        <form class="form-default"  method="POST">
+         {% csrf_token %}
+            <div class="login-form">
+                <!-- logo-login -->
+                <div class="logo-login">
+                    <a href="index.html"><img src="{% static 'img/loader.png' %}" alt=""></a>
+                </div>
+                <h2 class="body-font"> تسجيل الدخول</h2>
+                <div class="form-input">
+                    <label class="body-font" for="national_id">الرقم القومى</label>
+                    <input class="body-font"  type="number" name="national_id" id="national_id" placeholder="الرقم القومى">
+                </div>
+                <div class="form-input">
+                    <label for="password" class="body-font">كلمة السر</label>
+                    <input type="password" name="password" class="body-font" placeholder="كلمة السر">
+                </div>
+                <div class="form-input pt-30">
+                    <input type="submit" class="body-font" name="submit" value="الدخول">
+                </div>
+
+                <!-- Forget Password -->
+                <!-- Forget Password -->
+                <a href="{% url 'register' %}" class="إنشاء حساب">Registration</a>
+            </div>
+        </form>
+        <!-- /end login form -->
+    </main>
+
+
+{% endblock body %}

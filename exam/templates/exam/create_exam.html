@@ -1,0 +1,146 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} إنشاء إمتحان {% endblock title %}
+{% block body %}
+    {% include 'header.html' %}
+    <main>
+        <!--? slider Area Start-->
+        <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s" class="body-font">إنشاء إمتحان</h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a class="body-font"
+                                                                           href="{% url 'home-page' %}">الرئيسيه</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a class="body-font" href="{% url 'create-exam' %}">إنشاء إمتحان</a>
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title body-font">إنشاء إمتحان</h2>
+                        <hr>
+                    </div>
+                    <div class="col-lg-12">
+                        <form class="form-contact contact_form" method="post" id="contactForm" novalidate="novalidate">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <h3 class="body-font">اختر نوع الأمتحان</h3>
+                                        <div class="default-select" id="cats">
+                                            <select name="cat" id="cat">
+                                                {% for cat in cats %}
+                                                <option value="{{ cat.pk }}">{{ cat.name }}</option>
+                                                  {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input class="form-control valid body-font" name="name" id="name" type="text"
+                                               onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'إكنب إسم الأمتحان'"
+                                               placeholder="إكنب إسم الأمتحان">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <h3 class="body-font">اختر الأسئله </h3>
+
+                                                {% for question in questions %}
+            <input type="checkbox" id="question{{ question.pk }}" name="question{{ question.pk }}" value="{{ question.pk }}">
+                  <label for="question{{ question.pk }}"> {{ question.question }}</label><br>
+                                                {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" id="btn_submit" name="btn_submit" class="button button-contactForm boxed-btn body-font">إنشاء</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+            <section class="about-area1 fix justify-content-center">
+                            <div class="section-top-border">
+										<center>	<h3 class="body-font">الأمتحانات</h3> </center>
+											<div class="progress-table-wrap">
+												<div class="progress-table">
+													<div class="table-head">
+														<div class="serial body-font">#</div>
+														<div class="country body-font">اسم الأمتحان</div>
+														<div class="visit body-font">عدد الأسئله</div>
+														<div class="percentage body-font">التصنيف</div>
+													</div>
+                                                    {% for exam in exams %}
+													<div class="table-row">
+														<div class="serial body-font">{{ exam.pk }}</div>
+														<div class="country body-font"> {{ exam.name }}</div>
+														<div class="visit body-font">{{ exam.ques.count }}</div>
+														<div class="percentage body-font">
+                                                            {{ exam.cat_name.name }}
+														</div>
+													</div>
+                                                    {% endfor %}
+												</div>
+											</div>
+										</div>
+            </section>
+    </main>
+    {% include 'footer.html' %}
+{% block javascript %}
+    <script>
+        var val = [];
+    $(()=> {
+        $("#btn_submit").on('click' , (event) => {
+            event.preventDefault();
+             $(':checkbox:checked').each(function(i){
+          val.push( $(this).val());
+          console.log(val)
+        })
+            $.ajax({
+	method:'POST',
+	url:'{% url 'create-exam' %}',
+	data:{
+	'name':$('#name').val(),
+	'cat_id':$('#cat').val(),
+    'questions': val,
+	'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+},
+success: function(data) {
+        location.reload();
+},
+error : function (error) {
+  alert(error.responseText)
+}
+});
+        })
+    });
+
+    </script>
+    {% endblock javascript %}
+{% endblock body %}
+
+

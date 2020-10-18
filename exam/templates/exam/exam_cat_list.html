@@ -1,0 +1,127 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %} إمتحانات {{ cat.name }} {% endblock title %}
+
+
+{% block body %}
+{% include 'header.html' %}
+
+            <section class="slider-area slider-area2">
+            <div class="slider-active">
+                <!-- Single Slider -->
+                <div class="single-slider slider-height2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-8 col-lg-11 col-md-12">
+                                <div class="hero__caption hero__caption2">
+                                    <h1 data-animation="bounceIn" data-delay="0.2s" class="body-font"> {{ cat.name }}<br> إمتحانات</h1>
+                                    <!-- breadcrumb Start-->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a class="body-font"
+                                                                           href="{% url 'home-page' %}">الرئيسيه</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a class="body-font" href="{% url 'create-exam' %}">}إمتحانات </a>
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                    <!-- breadcrumb End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ <div class="courses-area section-padding40 fix">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-8">
+                        <div class="section-tittle text-center mb-55">
+                            <h2 class="body-font">الأمتحانات {{ cat.name }} </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="courses-actives">
+                    <!-- Single -->
+
+                   {% for exam in exams %}
+                    <div class="properties pb-20">
+                        <div class="properties__card">
+                            <div class="properties__img overlay1">
+                                <a href="#"><img src="{{ cat.picture.url }}" alt=""></a>
+                            </div>
+                            <div class="properties__caption">
+                                <h3 class="body-font"><a href="#">{{ exam.name }}</a></h3>
+                                <p class="body-font">{{ exam.cat_name.name }}
+
+                                </p>
+                                <div class="properties__footer d-flex justify-content-between align-items-center">
+                                    <div class="restaurant-name">
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half"></i>
+                                        </div>
+                                        <p><span class="body-font"> عدد الأسئله {{ exam.ques.count }}</span></p>
+                                    </div>
+                                    <div class="price">
+                                        <span>مجانا</span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'exam-detail' exam.pk %}" class="border-btn border-btn2 body-font">بدء الأمتحان</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Single -->
+                    <!-- Single -->
+                  {% endfor %}
+                </div>
+            </div>
+        </div>        <!-- Courses area End -->
+  <div class="services-area">
+            <div class="container">
+                <div class="row justify-content-sm-center">
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="single-services mb-30">
+                            <div class="features-icon">
+                                <img src="{% static 'img/icon/icon1.svg' %}" alt="">
+                            </div>
+                            <div class="features-caption">
+                                <h3 class="body-font"> الأمتحانات</h3>
+                                <p class="body-font">الكثير من الأمتحانات المتميزه لتقييم المستوى </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="single-services mb-30">
+                            <div class="features-icon">
+                                <img src="{% static 'img/icon/icon1.svg' %}" alt="">
+                            </div>
+                            <div class="features-caption">
+                                <h3 class="body-font">خبراء متميزون</h3>
+                                <p class="body-font">أمهر الخبراء يضعون الأمتحانات</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-8">
+                        <div class="single-services mb-30">
+                            <div class="features-icon">
+                                <img src="{% static 'img/icon/icon3.svg' %}" alt="">
+                            </div>
+                            <div class="features-caption">
+                                <h3 class="body-font">الوقت كالسيف</h3>
+                                <p class="body-font"> معانا كل دقيقه تمر تساوى معللومه جديده</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% include 'footer.html' %}
+{% endblock body %}
