@@ -86,10 +86,8 @@
                         {% endfor %}
                         <div class="form-group mt-3">
                             <center>
-                                <button type="submit" id="btn" class="button button-contactForm boxed-btn body-font">
-                                    إنهاء
-                                    الأمتحان
-                                </button>
+                                <a id="btn" class="button button-contactForm boxed-btn body-font">إنهاء الأمتحان </a>
+
                             </center>
                         </div>
                     </form>
@@ -101,14 +99,14 @@
 
     {% block javascript %}
         <script>
-            var val;
+            var val = [];
             $(() => {
                 $("#btn").on('click', (event) => {
                     event.preventDefault();
-                    $(':checkbox:checked').each(function (i) {
-                        val.push($(this).val());
-                        console.log(val)
+                    $('input[name="circle"]:checked').each(function () {
+                        val.push(this.value);
                     });
+
                     $.ajax({
                         type: 'POST',
                         url: '{% url 'exam-detail' exam.pk %}',
@@ -117,8 +115,24 @@
                             'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
                         },
                         success: function (data) {
-                            alert('good');
-                            location.reload();
+                            if (data.data === "1") {
+                                swal({
+                                    title: "تم",
+                                    text: "تم  بنجاح",
+                                    icon: "success",
+                                    button: "إغلاق",
+                                });
+                                window.history.back();
+                            }else {
+                                swal({
+                                    title: "خطا",
+                                    text: "حدث خطأ",
+                                    icon: "error",
+                                    button: "إغلاق",
+                                });
+                                window.location.reload();
+
+                            }
                         },
                         error: function (error) {
                             alert(error.responseText)

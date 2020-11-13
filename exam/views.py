@@ -21,7 +21,7 @@ def create_exam(request):
         for question in questions:
             q = models.Question.objects.get(pk=question)
             exam_info.ques.add(q)
-        return JsonResponse({"data": 1})
+        return JsonResponse({"data": "1"})
     else:
         return render(request, 'exam/create_exam.html', context=context)
 
@@ -50,7 +50,7 @@ def create_question(request):
         answer = request.POST.get('answer')
         question_info.answer = answer
         question_info.save()
-        return JsonResponse({"data": 1})
+        return JsonResponse({"data": "1"})
     else:
         return render(request, 'exam/create_question.html', context=context)
 
@@ -71,16 +71,18 @@ def exam_detail(request, pk):
         return render(request, 'exam/exam_detail.html', context=context)
     elif request.method == 'POST' or request.is_ajax:
         answers = request.POST.getlist('answers[]')
-        for question in exam_questions:
-            for ans in answers:
-                if ans == question.answer:
-                    marks += question.marks
-        result = models.FinalResult()
-        result.user = request.user
-        result.exam = exam_info_obj
-        result.total = marks
+        for index, question in enumerate(exam_questions):
+            if answers[index] == question.answer:
+                marks += question.marks
+        user = User.objects.get(pk=request.user.pk)
+        result = models.FinalResult(user=user, exam=exam_info_obj, total=marks)
         result.save()
-        return JsonResponse({"data": 1})
+        if result.pk:
+            return JsonResponse({"data": "1"})
+        else:
+            return JsonResponse({"data": "-1"})
+    elif request.method == 'GET':
+        return render(request, 'exam/exam_detail.html', context=context)
     else:
         return render(request, 'exam/exam_detail.html', context=context)
 
@@ -92,3 +94,8 @@ def get_ques_cat(request):
         questions = models.Question.objects.filter(cat_name=cat)
         ques_json = serializers.serialize('json', questions)
         return HttpResponse(ques_json, content_type='application/json')
+
+
+def result_list(request):
+    context = {"results": models.FinalResult.objects.all()}
+    return render(request, 'exam/result_list.html', context)

@@ -23,6 +23,9 @@
                                             {% if request.user.user_type ==  1 %}
                                                 <li><a href="{% url 'create-exam' %}" class="body-font">إنشاء إمتحان</a></li>
                                             {% endif %}
+                                            {% if request.user.user_type ==  1 %}
+                                                <li><a href="{% url 'result-list' %}" class="body-font">قائمة النتائج</a></li>
+                                            {% endif %}
                                                 {% if request.user.user_type ==  1 %}
                                                 <li><a class="body-font" href="{% url 'create-question' %}">إنشاء سؤال</a></li>
                                             {% endif %}

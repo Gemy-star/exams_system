@@ -176,7 +176,22 @@
 	'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
 },
 success: function(data) {
-        location.reload();
+	    if (data.data === "1") {
+	         swal({
+                                    title: "تم",
+                                    text: "تم  بنجاح",
+                                    icon: "success",
+                                    button: "إغلاق",
+                                });
+        window.location.reload();
+        }else {
+	          swal({
+                                    title: "خطا",
+                                    text: "من فضلك راجع البيانات",
+                                    icon: "error",
+                                    button: "إغلاق",
+                                });
+        }
 },
 error : function (error) {
   alert(error.responseText)
